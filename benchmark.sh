@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # 路径
-path=$(dirname $(realpath $0))
+
+path=$(cd $(dirname $0) && pwd)
 bin_path=$path/bin
 vender_path=$bin_path/vender
 
@@ -20,6 +21,19 @@ default_balance_interval=30
 # 帮助
 function usage() {
   echo usage
+}
+
+function os() {
+  os='Unknown'
+  test -x "$(command -v yum)" && os='CentOS'
+  test -x "$(command -v apt-get)" && os='Ubuntu'
+  echo $os
+}
+
+# 适配安装器
+function adapter() {
+  test 'CentOS' == $os && echo "$(command -v yum) install -y"
+  test 'Ubuntu' == $os && echo "$(command -v apt-get) install -y"
 }
 
 # 通知
@@ -68,13 +82,42 @@ function status() {
   cat $pid 2>/dev/null || dialog info "Not running."
 }
 
-# 编译 cpulimit
-function init() {
-  cd $path && test -x "$(command -v $cpulimit)" && return
+function install_make() {
+  $(adapter) make
+}
+
+function install_gcc() {
+  $(adapter) gcc
+}
+
+function check_dependencies() {
+  dependencies=(gcc make)
+  # 待安装集合
+  for dependence in ${dependencies[@]}; do
+    test ! -x "$(command -v $dependence)" && list+=($dependence)
+  done
+  test ${#list[@]} -eq 0 && return
+  # 缺失必要依赖
+  echo -e "Lack of necessary dependencies:\n\n \033[33m${list[@]}\033[0m\n"
+  test 'Unknown' == $os && dialog fatal "Unknown os, please manually install dependencies first. If already installed, add to the PATH."
+  ensure 'Install the above dependencies' || dialog exit
+  # 安装
+  for dependence in ${list[@]}; do
+    install_$dependence
+  done
+}
+
+function compile_cpulimit()  {
   tar -zxf $vender_path/cpulimit.tar.gz -C $vender_path &> /dev/null || dialog fatal "Decompression failed."
   cd $vender_path/cpulimit-master
   make &> /dev/null && cp ./src/cpulimit $vender_path || dialog fatal "Compilation failed."
   cd $path && rm -rf $vender_path/cpulimit-master
+}
+
+function init() {
+  cd $path && test -x "$(command -v $cpulimit)" && return
+  check_dependencies
+  compile_cpulimit
 }
 
 
