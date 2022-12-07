@@ -17,9 +17,21 @@ default_expect_load=15
 # 默认值，cpu 负载均衡检查间隔，可取值范围[10, 300]
 default_balance_interval=30
 
-# 帮助
 function usage() {
-  echo usage
+  cat << 'EOF'
+Usage: benchmark COMMAND [ARGS...]
+
+  Auxiliary program for CPU utilization reaching the standard, 
+  supporting multi-core, load balancing, etc
+
+Commands:
+  status                             Print pid
+  stop                               Kill the program
+  start [-e expect] [-i interval]    Run the program
+      -e expect_load                 Set expected load(default 15, only in [0, 80])                    
+      -i load_balance_interval       Set load balancing interval(default 30, only in [10, 300], unit second)
+
+EOF
 }
 
 function os() {
