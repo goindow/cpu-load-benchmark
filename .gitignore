@@ -2,7 +2,7 @@
 .vscode
 .DS_Store
 
-./balance.pid
-./balance.stat
+balance.pid
+balance.stat
 
-./bin/vender/cpulimit
+bin/vender/cpulimit
