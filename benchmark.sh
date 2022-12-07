@@ -85,6 +85,9 @@ function opts() {
 
 # 启动
 function start() {
+  # 重复启动判定
+  cat $pid &> /dev/null && dialog info "Running($(cat $pid))..."
+  # 启动
   opts $@ || shift $?
   nohup $balance $expect $path $interval &>/dev/null &
   echo $! > $pid && dialog info "Running($!)..."
