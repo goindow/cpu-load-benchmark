@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 路径
-path=$(dirname $(realpath $0))
+path=$(cd $(dirname $0) && pwd)
 
 # 脚本
 cpulimit=$path/vender/cpulimit
