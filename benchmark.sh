@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 路径
-path=$(cd $(dirname $0) && pwd)
+path=$(dirname $(readlink -f $0))
 bin_path=$path/bin
 vender_path=$bin_path/vender
 
