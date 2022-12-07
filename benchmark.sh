@@ -26,7 +26,6 @@ function os() {
   os='Unknown'
   test -x "$(command -v yum)" && os='CentOS'
   test -x "$(command -v apt-get)" && os='Ubuntu'
-  echo $os
 }
 
 # 适配安装器
@@ -119,7 +118,7 @@ function check_dependencies() {
   for dependence in ${dependencies[@]}; do
     test ! -x "$(command -v $dependence)" && list+=($dependence)
   done
-  test ${#list[@]} -eq 0 && return
+  test ${#list[@]} -eq 0 && return || os
   # 缺失必要依赖
   echo -e "Lack of necessary dependencies:\n\n \033[33m${list[@]}\033[0m\n"
   test 'Unknown' == $os && dialog fatal "Unknown os, please manually install dependencies first. If already installed, add to the PATH."
