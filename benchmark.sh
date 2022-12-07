@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # 路径
-
 path=$(cd $(dirname $0) && pwd)
 bin_path=$path/bin
 vender_path=$bin_path/vender
@@ -46,6 +45,30 @@ function dialog() {
     exit)  echo 'exited.';;
   esac
   exit 0
+}
+
+# 操作确认
+# $1 操作提示
+# $2 错误输入次数，默认 3 次
+# @return $?, 0 - 确认操作、1 - 取消操作
+function ensure() {
+  chances=${2:-3}
+  while test $chances -gt 0; do
+    read -p "$1, are you sure? [Y/n]: " input
+    case $input in
+        [yY][eE][sS]|[yY])
+          return 0
+        ;;
+        [nN][oO]|[nN])
+          return 1
+        ;;
+        *)
+          chances=$(($chances - 1))
+          test $chances -le 0 && echo "exited." && exit 1
+          echo "Invalid input...($chances chances left)"
+        ;;
+    esac
+  done
 }
 
 # 选项
