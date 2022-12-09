@@ -43,8 +43,8 @@ Commands:
 ## 示例
 ```shell
 # 启动
-benchmark start                # 默认，CPU 期望整体平均使用率达到 15%，检查间隔 30s
-benchmark start -e 30 -i 15    # 指定，CPU 期望整体平均使用率达到 30%，检查间隔 15s
+benchmark start                # 默认，期望 CPU 整体平均使用率达到 15%，检查间隔 30s
+benchmark start -e 30 -i 15    # 指定，期望 CPU 整体平均使用率达到 30%，检查间隔 15s
 
 # 停止
 benchmark stop
