@@ -44,7 +44,7 @@ Commands:
 ```shell
 # 启动
 benchmark start                # 默认，期望 CPU 整体平均使用率达到 15%，检查间隔 30s
-benchmark start -e 30 -i 15    # 指定，期望 CPU 整体平均使用率达到 30%，检查间隔 15s
+benchmark start -e 20 -i 60    # 指定，期望 CPU 整体平均使用率达到 20%，检查间隔 60s
 
 # 停止
 benchmark stop
