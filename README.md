@@ -15,8 +15,8 @@ CPU 使用率达标辅助程序，支持多核、平衡载荷负载均衡等
 
 ## 文件说明
 - benchmark.sh，快捷方式，通常请使用该脚本来启动/停止程序
- - -e export_load，期望负载，默认 15，取值范围了 [0, 80]
- - -i cpu_load_balance_interval，负载均衡检查间隔，默认 30 秒，取值范围 [10, 300]
+  - -e export_load，期望负载，默认 15，取值范围了 [0, 80]
+  - -i cpu_load_balance_interval，负载均衡检查间隔，默认 30 秒，取值范围 [10, 300]
 - bin/cpu_load_balance.sh，核心实现，根据 CPU 逻辑核数实现期望负载的动态调整，调整周期如上参数指定，一般不推荐直接使用该脚本
 - bin/cpu_overload.sh，超载程序
 - bin/cpu_usage.sh，计算 CPU 整体使用率
